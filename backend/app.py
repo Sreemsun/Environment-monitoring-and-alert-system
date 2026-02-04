@@ -170,13 +170,12 @@ def calculate_risk_metrics(weather_data):
 
 @app.route('/')
 def index():
-    """Serve the main HTML page"""
-    return send_from_directory('.', 'index.html')
+    return send_from_directory(STATIC_FOLDER, 'index.html')
 
 @app.route('/<path:path>')
-def serve_static(path):
-    """Serve static files (CSS, JS, etc.)"""
-    return send_from_directory('.', path)
+def serve_static_files(path):
+    return send_from_directory(STATIC_FOLDER, path)
+
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
@@ -2351,4 +2350,6 @@ if __name__ == '__main__':
     print(f"  Cache Duration: {CACHE_DURATION} seconds")
     print("=" * 70)
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
